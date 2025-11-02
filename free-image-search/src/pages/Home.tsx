@@ -14,7 +14,7 @@ export default function Home() {
     if (!query.trim()) return;
     const t0 = performance.now();
     try {
-      const data = await searchPhotos(query, 1, 12);
+      const data = await searchPhotos(query, 1, 30);
       const t1 = performance.now();
       setPhotos(data);
       setElapsed((t1 - t0) / 1000);

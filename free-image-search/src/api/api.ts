@@ -5,14 +5,14 @@ const api = axios.create({
   baseURL: "https://localhost:8081",
 });
 
-export const fetchHistory = async (queryText: string, page = 1, pageSize = 5) => {
+export const fetchHistory = async (queryText: string, page = 1, pageSize = 30) => {
   const res = await api.get<SearchHistoryResponse>(`/api/SearchHistory/search`, {
     params: { queryText, page, pageSize },
   });
   return res.data;
 };
 
-export const searchPhotos = async (query: string, page = 1, per_page = 10) => {
+export const searchPhotos = async (query: string, page = 1, per_page = 30) => {
   const res = await api.get<PhotoResult[]>(`/api/photos/search`, {
     params: { query, page, per_page },
   });
