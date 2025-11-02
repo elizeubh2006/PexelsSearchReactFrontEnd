@@ -12,7 +12,7 @@ export default function ImageList({ photos, onOpen }: Props) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
       {photos.map((p) => (
-        <ImageCard key={p.originalUrl} photo={p} onOpen={onOpen} />
+        <ImageCard key={p.id} photo={p} onOpen={onOpen} />
       ))}
     </div>
   );

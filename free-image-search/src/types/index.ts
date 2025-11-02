@@ -19,4 +19,5 @@ export interface PhotoResult {
   author: string;
   width: number;
   height: number;
+  id: string;
 }

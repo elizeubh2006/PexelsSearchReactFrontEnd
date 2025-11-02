@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchHistory } from '../api/api';
-import { SearchHistoryItem } from '../types';
+import type { SearchHistoryItem } from '../types/index';
 import { useDebounce } from '../hooks/useDebounce';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 export default function Autocomplete({ value, onChange, onSelect }: Props) {
   const [page, setPage] = useState(1);
   const [results, setResults] = useState<SearchHistoryItem[]>([]);
-  const [total, setTotal] = useState(0);
+  const [, setTotal] = useState(0);
   const debounced = useDebounce(value, 300);
   const pageSize = 5;
 
