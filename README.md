@@ -14,7 +14,7 @@ Este projeto permite ao usuário:
 ---
 
 ## 🖼️ Screenshots  
-> *(Insira abaixo prints de tela do projeto em funcionamento)*  
+> **  
 ![Screenshot 1](https://i.imgur.com/4ggKTma.png)  
 ![Screenshot 2](https://i.imgur.com/QMZzAMo.png)  
 
