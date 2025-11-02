@@ -7,11 +7,11 @@ import type { PhotoResult } from "../types";
 
 export default function Home() {
   const [photos, setPhotos] = useState<PhotoResult[]>([]);
-  const [elapsed, setElapsed] = useState<number | null>(null);
+  const [elapsed, setElapsed] = useState<number | undefined>(undefined);
   const [openPhoto, setOpenPhoto] = useState<PhotoResult | null>(null);
 
   const handleSearch = async (query: string) => {
-    if (!query) return;
+    if (!query.trim()) return;
     const t0 = performance.now();
     try {
       const data = await searchPhotos(query, 1, 12);
@@ -20,24 +20,38 @@ export default function Home() {
       setElapsed((t1 - t0) / 1000);
     } catch (err) {
       console.error(err);
+      setPhotos([]);
+      setElapsed(undefined);
     }
   };
 
   return (
     <div className="min-h-screen bg-white text-black flex flex-col items-center">
       <header className="pt-16 pb-6 text-center">
-        <h1 className="text-6xl font-bold text-blue-600 tracking-tight">
-          Free Image Search
+        {/* 🎨 Título no estilo Google: cores em cada letra */}
+        <h1 className="text-6xl font-bold tracking-tight">
+          <span className="text-blue-600">F</span>
+          <span className="text-red-500">r</span>
+          <span className="text-yellow-500">e</span>
+          <span className="text-blue-600">e</span>
+          <span className="text-green-500"> </span>
+          <span className="text-red-500">I</span>
+          <span className="text-blue-600">m</span>
+          <span className="text-yellow-500">a</span>
+          <span className="text-green-500">g</span>
+          <span className="text-red-500">e</span>
+          <span className="text-blue-600"> </span>
+          <span className="text-yellow-500">S</span>
+          <span className="text-green-500">e</span>
+          <span className="text-red-500">a</span>
+          <span className="text-blue-600">r</span>
+          <span className="text-yellow-500">c</span>
+          <span className="text-green-500">h</span>
         </h1>
-        {elapsed !== null && (
-          <p className="text-sm text-gray-500 mt-2">
-            Tempo de busca: {elapsed.toFixed(2)}s
-          </p>
-        )}
       </header>
 
       <div className="w-full max-w-xl px-4">
-        <SearchBar onSearch={handleSearch} elapsedSeconds={elapsed ?? undefined} />
+        <SearchBar onSearch={handleSearch} elapsedSeconds={elapsed} />
       </div>
 
       <main className="max-w-6xl mx-auto px-4 mt-10">

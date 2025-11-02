@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchHistory } from "../api/api";
 import { useDebounce } from "../hooks/useDebounce";
 import type { SearchHistoryItem } from "../types";
@@ -14,6 +14,21 @@ export default function Autocomplete({ value, onChange, onSelect }: Props) {
   const [loading, setLoading] = useState(false);
   const debounced = useDebounce(value, 400);
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // 🎯 Efeito para fechar a lista quando clicar fora
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setResults([]);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     if (!debounced.trim()) {
       setResults([]);
@@ -28,11 +43,16 @@ export default function Autocomplete({ value, onChange, onSelect }: Props) {
   }, [debounced]);
 
   return (
-    <div className="relative w-full">
+    <div ref={wrapperRef} className="relative w-full">
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && onSelect(value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            onSelect(value);
+            setResults([]); // fecha a lista ao pressionar Enter
+          }
+        }}
         placeholder="Pesquisar imagens..."
         className="w-full border border-gray-300 rounded-full px-4 py-2 text-black placeholder-gray-500 shadow-sm focus:ring-2 focus:ring-blue-500 outline-none"
       />
@@ -47,7 +67,10 @@ export default function Autocomplete({ value, onChange, onSelect }: Props) {
             <li
               key={r.id}
               className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() => onSelect(r.query)}
+              onClick={() => {
+                onSelect(r.query);
+                setResults([]); // fecha a lista ao selecionar
+              }}
             >
               {r.query}
               <span className="text-xs text-gray-400 ml-2">
