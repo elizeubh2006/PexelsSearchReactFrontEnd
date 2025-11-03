@@ -1,4 +1,3 @@
-import React from 'react';
 import type { PhotoResult } from '../types';
 
 interface Props {
